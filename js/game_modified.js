@@ -55,6 +55,7 @@ function draw_overlay() {
 }
 function othersnakes(){
     var m=get_me();
+    var minDistance=800;
     for(var i=0; i<window.snakes.length; i++){
             if(window.snakes[i].id==m.id){
                 continue;
@@ -71,8 +72,10 @@ function othersnakes(){
                 ctx.beginPath();
         ctx.moveTo(ctx.canvas.width/2, ctx.canvas.height/2);
         ctx.lineTo(ctx.canvas.width/2 + pt.xx - get_me().xx, ctx.canvas.height/2 +pt.yy - get_me().yy);
-        ctx.lineWidth = 10-closest/80 >1?10-closest/80:1;
+        ctx.lineWidth = closest<minDistance?10-closest/80:1;
         ctx.strokeStyle = "#00FF00";
+        if(closest<minDistance)
+        ctx.strokeStyle = "#0000FF";
         ctx.stroke();
             }
             
