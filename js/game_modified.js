@@ -9,29 +9,29 @@ function get_me() {
     })[0];
 
 }
-window.blacklist=[];
+window.blacklist = [];
 MovementManager.prototype.loop = function() {
     //window.xm = (Math.random() - 0.5) * 200
     //window.ym = (Math.random() - 0.5) * 200
     var best = bestfood();
     this.best = best;
-    if(window.prev && best){
-        if(window.prev.id==best.id){
-            if(window.numTicks){
+    if (window.prev && best) {
+        if (window.prev.id == best.id) {
+            if (window.numTicks) {
                 window.numTicks++;
-            }else{
-                window.numTicks=1;
+            } else {
+                window.numTicks = 1;
             }
-            if(window.numTicks>200){
-                console.log("BLACKLISTING "+best.id);
-                window.blacklist[best.id]=1;
+            if (window.numTicks > 200) {
+                console.log("BLACKLISTING " + best.id);
+                window.blacklist[best.id] = 1;
             }
-        }else{
+        } else {
             //console.log("This one took "+window.numTicks+" ticks before switching");
-            window.numTicks=0;
+            window.numTicks = 0;
         }
     }
-    window.prev=best;
+    window.prev = best;
     if (best) {
         window.xm = best.xx - get_me().xx;
         window.ym = best.yy - get_me().yy;
@@ -41,46 +41,48 @@ MovementManager.prototype.loop = function() {
 function draw_overlay() {
     ctx = mc.getContext("2d")
     ctx.fillText("Hello World", 100, 50);
-    var m=get_me();
+    var m = get_me();
     if (m34.best) {
         //console.log(((m34.best.xx - m.xx) * (m34.best.xx - m.xx) + (m34.best.yy - m.yy) * (m34.best.yy - m.yy)));
         ctx.beginPath();
-        ctx.moveTo(ctx.canvas.width/2, ctx.canvas.height/2);
-        ctx.lineTo(ctx.canvas.width/2 + m34.best.xx - get_me().xx, ctx.canvas.height/2 + m34.best.yy - get_me().yy);
-        ctx.lineWidth = 10-(dist/30) > 1 ? 10-(dist/30) : 1
+        ctx.moveTo(ctx.canvas.width / 2, ctx.canvas.height / 2);
+        ctx.lineTo(ctx.canvas.width / 2 + m34.best.xx - get_me().xx, ctx.canvas.height / 2 + m34.best.yy - get_me().yy);
+        ctx.lineWidth = 10 - (dist / 30) > 1 ? 10 - (dist / 30) : 1
         ctx.strokeStyle = "#FF0000";
         ctx.stroke();
         othersnakes();
     }
 }
-function othersnakes(){
-    var m=get_me();
-    var minDistance=800;
-    for(var i=0; i<window.snakes.length; i++){
-            if(window.snakes[i].id==m.id){
-                continue;
-            }
-            var closestPoint=null;
-            var closest=0;
-            for(var j=window.snakes[i].pts.length-window.snakes[i].sct; j<window.snakes[i].pts.length; j++){
-                var pt=window.snakes[i].pts[j];
-                var distance=Math.sqrt((pt.xx-m.xx)*(pt.xx-m.xx)+(pt.yy-m.yy)*(pt.yy-m.yy));
-                if(closestPoint==null || distance<closest){
-                    closest=distance;
-                    closestPoint=window.snakes[i];
-                }
-                ctx.beginPath();
-        ctx.moveTo(ctx.canvas.width/2, ctx.canvas.height/2);
-        ctx.lineTo(ctx.canvas.width/2 + pt.xx - get_me().xx, ctx.canvas.height/2 +pt.yy - get_me().yy);
-        ctx.lineWidth = closest<minDistance?10-closest/80:1;
-        ctx.strokeStyle = "#00FF00";
-        if(closest<minDistance)
-        ctx.strokeStyle = "#0000FF";
-        ctx.stroke();
-            }
-            
+
+function othersnakes() {
+    var m = get_me();
+    var minDistance = 800;
+    for (var i = 0; i < window.snakes.length; i++) {
+        if (window.snakes[i].id == m.id) {
+            continue;
         }
+        var closestPoint = null;
+        var closest = 0;
+        for (var j = window.snakes[i].pts.length - window.snakes[i].sct; j < window.snakes[i].pts.length; j++) {
+            var pt = window.snakes[i].pts[j];
+            var distance = Math.sqrt((pt.xx - m.xx) * (pt.xx - m.xx) + (pt.yy - m.yy) * (pt.yy - m.yy));
+            if (closestPoint == null || distance < closest) {
+                closest = distance;
+                closestPoint = window.snakes[i];
+            }
+            ctx.beginPath();
+            ctx.moveTo(ctx.canvas.width / 2, ctx.canvas.height / 2);
+            ctx.lineTo(ctx.canvas.width / 2 + pt.xx - get_me().xx, ctx.canvas.height / 2 + pt.yy - get_me().yy);
+            ctx.lineWidth = closest < minDistance ? 10 - closest / 80 : 1;
+            ctx.strokeStyle = "#00FF00";
+            if (closest < minDistance)
+                ctx.strokeStyle = "#0000FF";
+            ctx.stroke();
+        }
+
+    }
 }
+
 function bestfood() {
     var m = get_me();
     var bestfood = null;
@@ -88,7 +90,7 @@ function bestfood() {
     var foods = window.foods;
     for (var i = 0; i < window.foods.length; i++) {
         if (window.foods[i] && m && !window.blacklist[window.foods[i].id]) {
-            var actualDist=Math.sqrt((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy));
+            var actualDist = Math.sqrt((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy));
             var nd = actualDist / foods[i].gr
 
             if (nd < dist || bestfood == null) {
@@ -3982,9 +3984,7 @@ function connect() {
                     //         save_btn.setEnabled(!0)) : want_close_socket = !0);
 
                     //     play_btn.elem.onclick();
-                    }
-
-                else if ("W" == h)
+                } else if ("W" == h)
                     e = c[b],
                     b++,
                     C = c[b],
