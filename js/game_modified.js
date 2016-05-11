@@ -7,13 +7,31 @@ function get_me() {
     return window.snakes.filter(function(x) {
         return x.md == false
     })[0];
+
 }
+window.blacklist=[];
 MovementManager.prototype.loop = function() {
     //window.xm = (Math.random() - 0.5) * 200
     //window.ym = (Math.random() - 0.5) * 200
     var best = bestfood();
     this.best = best;
-
+    if(window.prev){
+        if(window.prev.id==best.id){
+            if(window.numTicks){
+                window.numTicks++;
+            }else{
+                window.numTicks=1;
+            }
+            if(window.numTicks>200){
+                console.log("BLACKLISTING "+best.id);
+                window.blacklist[best.id]=1;
+            }
+        }else{
+            console.log("This one took "+window.numTicks+" ticks before switching");
+            window.numTicks=0;
+        }
+    }
+    window.prev=best;
     if (best) {
         window.xm = best.xx - get_me().xx;
         window.ym = best.yy - get_me().yy;
@@ -25,7 +43,7 @@ function draw_overlay() {
     ctx.fillText("Hello World", 100, 50);
     var m=get_me();
     if (m34.best) {
-        console.log(((m34.best.xx - m.xx) * (m34.best.xx - m.xx) + (m34.best.yy - m.yy) * (m34.best.yy - m.yy)));
+        //console.log(((m34.best.xx - m.xx) * (m34.best.xx - m.xx) + (m34.best.yy - m.yy) * (m34.best.yy - m.yy)));
         ctx.beginPath();
         ctx.moveTo(ctx.canvas.width/2, ctx.canvas.height/2);
         ctx.lineTo(ctx.canvas.width/2 + m34.best.xx - get_me().xx, ctx.canvas.height/2 + m34.best.yy - get_me().yy);
@@ -41,7 +59,7 @@ function bestfood() {
     window.dist = 0;
     var foods = window.foods;
     for (var i = 0; i < window.foods.length; i++) {
-        if (window.foods[i] && m) {
+        if (window.foods[i] && m && !window.blacklist[window.foods[i].id]) {
             var actualDist=((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy));
             var nd = actualDist / foods[i].gr
 
