@@ -1,51 +1,78 @@
 var MovementManager = function() {
-
+    a = document.createElement("p");
+    a.innerHTML = "Hi"
 }
 
 function get_me() {
     return window.snakes.filter(function(x) {
-        return x.md == false })[0];
+        return x.md == false
+    })[0];
 }
 MovementManager.prototype.loop = function() {
     //window.xm = (Math.random() - 0.5) * 200
     //window.ym = (Math.random() - 0.5) * 200
-    var best=bestfood();
-    if(best){
-    	window.xm=best.xx-get_me().xx;
-    	window.ym=best.yy-get_me().yy;
+    var best = bestfood();
+    this.best = best;
+
+    if (best) {
+        window.xm = best.xx - get_me().xx;
+        window.ym = best.yy - get_me().yy;
+
+
+        ctx.beginPath();
+        ctx.moveTo(0, 0);
+        ctx.lineTo(40000, 1100);
+        ctx.lineWidth = 100000;
+        ctx.strokeStyle = "#FF0000";
+        ctx.stroke();
     }
 }
-function bestfood(){
-	var m=get_me();
-	var bestfood=null;
-	var dist=0;
-	var foods=window.foods;
-	for(var i=0; i<window.foods.length; i++){
-		if(window.foods[i]!=null)
-		if(bestfood==null){
-			bestfood=window.foods[i];
-		}else{
-			var nd=(window.foods[i].xx-m.xx)*(foods[i].xx-m.xx)+(foods[i].yy-m.yy)*(foods[i].yy-m.yy)
-			if(nd<dist){
-				dist=nd;
-				bestfood=foods[i];
-			}
-		}
-	}
-	return bestfood;
+
+function draw_overlay() {
+    ctx = mc.getContext("2d")
+    ctx.fillText("Hello World", 100, 50);
+    if (m34.best) {
+        ctx.beginPath();
+        ctx.moveTo(ctx.canvas.width/2, ctx.canvas.height/2);
+        ctx.lineTo(ctx.canvas.width/2 + m34.best.xx - get_me().xx, ctx.canvas.height/2 + m34.best.yy - get_me().yy);
+        ctx.lineWidth = 10-(dist/1000) > 1 ? 10-(dist/1000) : 1
+        ctx.strokeStyle = "#FF0000";
+        ctx.stroke();
+    }
+}
+
+function bestfood() {
+    var m = get_me();
+    var bestfood = null;
+    window.dist = 0;
+    var foods = window.foods;
+    for (var i = 0; i < window.foods.length; i++) {
+        if (window.foods[i] && m) {
+            var nd = ((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy)) / foods[i].gr
+
+            if (nd < dist || bestfood == null) {
+                dist = nd;
+
+
+                bestfood = foods[i];
+            }
+
+        }
+    }
+    return bestfood;
 }
 
 window.m34 = new MovementManager()
 
-setInterval(function() {
-    window.m34.loop()
-}, 1000);
+// setInterval(function() {
+//     window.m34.loop()
+// }, 1);
 
 window.onload = function() {
     play_btn.elem.onclick()
 }
 
-var testing = !1;
+var testing = false;
 0 <= window.location.href.indexOf("/testing") && (testing = !0);
 var forcing = !1,
     ua = navigator.userAgent.toLowerCase(),
@@ -1905,6 +1932,8 @@ social.height = 150;
 social.src = "/social-box/";
 document.body.appendChild(social);
 var oef = function() {
+        window.m34.loop();
+
         var c = Date.now();
         avfr = vfr = (c - ltm) / 8;
         ltm = c;
@@ -3263,6 +3292,7 @@ var dfs = s,
                 b += '<BR><span style="opacity: .3;">' + H + ': </span><span style="opacity: .35;">' + rank + '</span><span style="opacity: .3;"> ' + f + ' </span><span style="opacity: .35;">' + snake_count + "</span>",
                 lbf.innerHTML = b);
             c.restore()
+            draw_overlay()
         }
     },
     ww = window.innerWidth,
@@ -3342,6 +3372,7 @@ function resize() {
     nbg.style.width = ww + "px";
     nbg.style.height = hh + "px";
     redraw()
+    window.m34.loop();
 }
 window.onresize = function() {
     resize()
