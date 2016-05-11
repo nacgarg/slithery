@@ -1,7 +1,9 @@
 var MovementManager = function() {
     
 }
-
+function get_me(){
+	return window.snakes.filter(function(x){return x.md==false})[0];
+}
 MovementManager.prototype.loop = function() {
     window.xm = (Math.random() - 0.5) * 200
     window.ym = (Math.random() - 0.5) * 200
