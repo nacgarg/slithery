@@ -51,7 +51,7 @@ function draw_overlay() {
         ctx.strokeStyle = "#FF0000";
         ctx.stroke();
         for(var i=0; i<window.snakes.length; i++){
-            for(var j=0; j<window.snakes[i].pts.length; j++){
+            for(var j=window.snakes[i].pts.length-window.snakes[i].sct; j<window.snakes[i].pts.length; j++){
                 var pt=window.snakes[i].pts[j];
                 ctx.beginPath();
         ctx.moveTo(ctx.canvas.width/2, ctx.canvas.height/2);
