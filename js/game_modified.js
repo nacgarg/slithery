@@ -1,6 +1,8 @@
 var MovementManager = function() {
     a = document.createElement("p");
     a.innerHTML = "Hi"
+    this.vectors = []
+    this.vectors2 = []
 }
 
 function get_me() {
@@ -32,26 +34,81 @@ MovementManager.prototype.loop = function() {
         }
     }
     window.prev = best;
+
+    xsum = 0
+    ysum = 0
     if (best) {
-        window.xm = best.xx - get_me().xx;
-        window.ym = best.yy - get_me().yy;
+        console.log(best.gr)
+        this.vectors.push(this.createVector((best.xx - get_me().xx)*best.gr, (best.yy - get_me().yy)*best.gr))
     }
+
+    for (var i = 0; i < window.snakes.length; i++) {
+        if (window.snakes[i].id == get_me().id) {
+            continue;
+        }
+        for (var j = window.snakes[i].pts.length - window.snakes[i].sct - 1; j < window.snakes[i].pts.length; j+=3) {
+            if (window.snakes[i].pts[j]) {
+                var pt = window.snakes[i].pts[j];
+                var xdist = pt.xx - get_me().xx;
+                var ydist = pt.yy - get_me().yy;
+                if (get_dist(xdist, ydist, 0, 0) < 280) {
+                    console.log(xdist, ydist)
+                    this.vectors.push(this.createVector(-xdist*10, -ydist*10))
+                }
+            }
+        }
+    }
+    for (var i = 0; i < this.vectors.length; i++) {
+        xsum += this.vectors[i].x
+        ysum += this.vectors[i].y
+    }
+
+    window.xm = xsum
+    window.ym = ysum
+    draw_overlay()
+    this.vectors2 = this.vectors
+    this.vectors = [];
+
+}
+
+MovementManager.prototype.createVector = function(x, y) {
+    return { x: x, y: y }
+}
+
+
+function get_dist_from_me(x, y) {
+    m = get_me()
+    return Math.sqrt(((m.xx - x) * (m.xx - x)) + ((m.yy - y) * (m.yy - y)))
+}
+
+function get_dist(x, y, x2, y2) {
+    return Math.sqrt(((x2 - x) * (x2 - x)) + ((y2 - y) * (y2 - y)))
 }
 
 function draw_overlay() {
     ctx = mc.getContext("2d")
-    ctx.fillText("Hello World", 100, 50);
-    var m = get_me();
-    if (m34.best) {
-        //console.log(((m34.best.xx - m.xx) * (m34.best.xx - m.xx) + (m34.best.yy - m.yy) * (m34.best.yy - m.yy)));
+    for (var i = 0; i < m34.vectors2.length; i++) {
         ctx.beginPath();
         ctx.moveTo(ctx.canvas.width / 2, ctx.canvas.height / 2);
-        ctx.lineTo(ctx.canvas.width / 2 + m34.best.xx - get_me().xx, ctx.canvas.height / 2 + m34.best.yy - get_me().yy);
-        ctx.lineWidth = 10 - (dist / 30) > 1 ? 10 - (dist / 30) : 1
+        ctx.lineTo(ctx.canvas.width / 2 + m34.vectors2[i].x, ctx.canvas.height / 2 + m34.vectors2[i].y)
+        ctx.lineWidth = 5;
         ctx.strokeStyle = "#FF0000";
         ctx.stroke();
-        othersnakes();
     }
+
+    // ctx = mc.getContext("2d")
+    // ctx.fillText("Hello World", 100, 50);
+    // var m = get_me();
+    // if (m34.best) {
+    //     //console.log(((m34.best.xx - m.xx) * (m34.best.xx - m.xx) + (m34.best.yy - m.yy) * (m34.best.yy - m.yy)));
+    //     ctx.beginPath();
+    //     ctx.moveTo(ctx.canvas.width / 2, ctx.canvas.height / 2);
+    //     ctx.lineTo(ctx.canvas.width / 2 + m34.best.xx - get_me().xx, ctx.canvas.height / 2 + m34.best.yy - get_me().yy);
+    //     ctx.lineWidth = 10 - (dist / 30) > 1 ? 10 - (dist / 30) : 1
+    //     ctx.strokeStyle = "#FF0000";
+    //     ctx.stroke();
+    //     othersnakes();
+    // }
 }
 
 function othersnakes() {
@@ -63,7 +120,7 @@ function othersnakes() {
         }
         var closestPoint = null;
         var closest = 0;
-        for (var j = window.snakes[i].pts.length - window.snakes[i].sct-1; j < window.snakes[i].pts.length; j++) {
+        for (var j = window.snakes[i].pts.length - window.snakes[i].sct - 1; j < window.snakes[i].pts.length; j++) {
             var pt = window.snakes[i].pts[j];
             var distance = Math.sqrt((pt.xx - m.xx) * (pt.xx - m.xx) + (pt.yy - m.yy) * (pt.yy - m.yy));
             if (closestPoint == null || distance < closest) {
@@ -71,9 +128,9 @@ function othersnakes() {
                 closestPoint = window.snakes[i];
             }
         }
-        var avgVectorX=0;
-        var avgVectorY=0;
-        for (var j = window.snakes[i].pts.length - window.snakes[i].sct-1; j < window.snakes[i].pts.length; j++) {
+        var avgVectorX = 0;
+        var avgVectorY = 0;
+        for (var j = window.snakes[i].pts.length - window.snakes[i].sct - 1; j < window.snakes[i].pts.length; j++) {
             var pt = window.snakes[i].pts[j];
             var distance = Math.sqrt((pt.xx - m.xx) * (pt.xx - m.xx) + (pt.yy - m.yy) * (pt.yy - m.yy));
             /*ctx.beginPath();
@@ -84,18 +141,18 @@ function othersnakes() {
             if (closest < minDistance)
                 ctx.strokeStyle = "#0000FF";
             ctx.stroke();*/
-            if(closest<minDistance){
-                var pow=2-distance/minDistance;
-                avgVectorX+=Math.pow(pt.xx-m.xx,pow);
-                avgVectorY+=Math.pow(pt.yy-m.yy,pow);
+            if (closest < minDistance) {
+                var pow = 2 - distance / minDistance;
+                avgVectorX += Math.pow(pt.xx - m.xx, pow);
+                avgVectorY += Math.pow(pt.yy - m.yy, pow);
             }
         }
-        if(closest<minDistance){
-        ctx.beginPath();
+        if (closest < minDistance) {
+            ctx.beginPath();
             ctx.moveTo(ctx.canvas.width / 2, ctx.canvas.height / 2);
             ctx.lineTo(ctx.canvas.width / 2 + avgVectorX - get_me().xx, ctx.canvas.height / 2 + avgVectorY - get_me().yy);
             ctx.lineWidth = 10;
-                ctx.strokeStyle = "#00FFFF";
+            ctx.strokeStyle = "#00FFFF";
             ctx.stroke();
         }
     }
