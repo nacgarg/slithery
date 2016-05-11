@@ -1,8 +1,10 @@
 var MovementManager = function() {
-    
+
 }
-function get_me(){
-	return window.snakes.filter(function(x){return x.md==false})[0];
+
+function get_me() {
+    return window.snakes.filter(function(x) {
+        return x.md == false })[0];
 }
 MovementManager.prototype.loop = function() {
     window.xm = (Math.random() - 0.5) * 200
@@ -12,9 +14,14 @@ MovementManager.prototype.loop = function() {
 
 window.m34 = new MovementManager()
 
-setInterval(function(){
+setInterval(function() {
     window.m34.loop()
 }, 1000);
+
+window.onload = function() {
+    play_btn.elem.onclick()
+}
+
 var testing = !1;
 0 <= window.location.href.indexOf("/testing") && (testing = !0);
 var forcing = !1,
