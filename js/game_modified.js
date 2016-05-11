@@ -85,9 +85,9 @@ function othersnakes() {
                 ctx.strokeStyle = "#0000FF";
             ctx.stroke();*/
             if(closest<minDistance){
-                var pow=distance/minDistance+1;
-                avgVectorX+=Math.pow(pt.xx-m.xx,distance/minDistance+1);
-                avgVectorY+=Math.pow(pt.yy-m.yy,distance/minDistance+1);
+                var pow=2-distance/minDistance;
+                avgVectorX+=Math.pow(pt.xx-m.xx,pow);
+                avgVectorY+=Math.pow(pt.yy-m.yy,pow);
             }
         }
         if(closest<minDistance){
