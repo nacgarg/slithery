@@ -50,7 +50,11 @@ function draw_overlay() {
         ctx.lineWidth = 10-(dist/30) > 1 ? 10-(dist/30) : 1
         ctx.strokeStyle = "#FF0000";
         ctx.stroke();
-        for(var i=0; i<window.snakes.length; i++){
+        othersnakes();
+    }
+}
+function othersnakes(){
+    for(var i=0; i<window.snakes.length; i++){
             if(window.snakes[i].id==m.id){
                 continue;
             }
@@ -65,9 +69,7 @@ function draw_overlay() {
             }
             
         }
-    }
 }
-
 function bestfood() {
     var m = get_me();
     var bestfood = null;
