@@ -23,7 +23,9 @@ MovementManager.prototype.loop = function() {
 function draw_overlay() {
     ctx = mc.getContext("2d")
     ctx.fillText("Hello World", 100, 50);
+    var m=get_me();
     if (m34.best) {
+        console.log(((m34.best.xx - m.xx) * (m34.best.xx - m.xx) + (m34.best.yy - m.yy) * (m34.best.yy - m.yy)));
         ctx.beginPath();
         ctx.moveTo(ctx.canvas.width/2, ctx.canvas.height/2);
         ctx.lineTo(ctx.canvas.width/2 + m34.best.xx - get_me().xx, ctx.canvas.height/2 + m34.best.yy - get_me().yy);
