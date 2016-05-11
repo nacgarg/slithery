@@ -15,7 +15,7 @@ MovementManager.prototype.loop = function() {
     //window.ym = (Math.random() - 0.5) * 200
     var best = bestfood();
     this.best = best;
-    if(window.prev){
+    if(window.prev && best){
         if(window.prev.id==best.id){
             if(window.numTicks){
                 window.numTicks++;
