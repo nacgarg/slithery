@@ -70,16 +70,34 @@ function othersnakes() {
                 closest = distance;
                 closestPoint = window.snakes[i];
             }
-            ctx.beginPath();
+        }
+        var avgVectorX=0;
+        var avgVectorY=0;
+        for (var j = window.snakes[i].pts.length - window.snakes[i].sct; j < window.snakes[i].pts.length; j++) {
+            var pt = window.snakes[i].pts[j];
+            var distance = Math.sqrt((pt.xx - m.xx) * (pt.xx - m.xx) + (pt.yy - m.yy) * (pt.yy - m.yy));
+            /*ctx.beginPath();
             ctx.moveTo(ctx.canvas.width / 2, ctx.canvas.height / 2);
             ctx.lineTo(ctx.canvas.width / 2 + pt.xx - get_me().xx, ctx.canvas.height / 2 + pt.yy - get_me().yy);
             ctx.lineWidth = closest < minDistance ? 10 - closest / 80 : 1;
             ctx.strokeStyle = "#00FF00";
             if (closest < minDistance)
                 ctx.strokeStyle = "#0000FF";
+            ctx.stroke();*/
+            if(closest<minDistance){
+                var pow=distance/minDistance+1;
+                avgVectorX+=Math.pow(pt.xx-m.xx,distance/minDistance+1);
+                avgVectorY+=Math.pow(pt.yy-m.yy,distance/minDistance+1);
+            }
+        }
+        if(closest<minDistance){
+        ctx.beginPath();
+            ctx.moveTo(ctx.canvas.width / 2, ctx.canvas.height / 2);
+            ctx.lineTo(ctx.canvas.width / 2 + avgVectorX - get_me().xx, ctx.canvas.height / 2 + avgVectorY - get_me().yy);
+            ctx.lineWidth = 10;
+                ctx.strokeStyle = "#00FFFF";
             ctx.stroke();
         }
-
     }
 }
 
