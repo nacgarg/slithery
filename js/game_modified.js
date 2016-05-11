@@ -74,9 +74,9 @@ function othersnakes() {
             ctx.moveTo(ctx.canvas.width / 2, ctx.canvas.height / 2);
             ctx.lineTo(ctx.canvas.width / 2 + pt.xx - get_me().xx, ctx.canvas.height / 2 + pt.yy - get_me().yy);
             ctx.lineWidth = closest < minDistance ? 10 - closest / 80 : 1;
-            ctx.strokeStyle = "rgba(0,1,0,0.5)";
+            ctx.strokeStyle = "#00FF00";
             if (closest < minDistance)
-                ctx.strokeStyle = "rgba(0,0,1,0.5)";
+                ctx.strokeStyle = "#0000FF";
             ctx.stroke();
         }
 
