@@ -40,7 +40,8 @@ function bestfood() {
     var foods = window.foods;
     for (var i = 0; i < window.foods.length; i++) {
         if (window.foods[i] && m) {
-            var nd = ((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy)) / foods[i].gr
+            var actualDist=((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy));
+            var nd = actualDist / foods[i].gr
 
             if (nd < dist || bestfood == null) {
                 dist = nd;
