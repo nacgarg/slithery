@@ -7,9 +7,32 @@ function get_me() {
         return x.md == false })[0];
 }
 MovementManager.prototype.loop = function() {
-    window.xm = (Math.random() - 0.5) * 200
-    window.ym = (Math.random() - 0.5) * 200
-    console.info("info")
+    //window.xm = (Math.random() - 0.5) * 200
+    //window.ym = (Math.random() - 0.5) * 200
+    var best=bestfood();
+    if(best){
+    	window.xm=best.xx-get_me().xx;
+    	window.ym=best.yy-get_me().yy;
+    }
+}
+function bestfood(){
+	var m=get_me();
+	var bestfood=null;
+	var dist=0;
+	var foods=window.foods;
+	for(var i=0; i<window.foods.length; i++){
+		if(window.foods[i]!=null)
+		if(bestfood==null){
+			bestfood=window.foods[i];
+		}else{
+			var nd=(window.foods[i].xx-m.xx)*(foods[i].xx-m.xx)+(foods[i].yy-m.yy)*(foods[i].yy-m.yy)
+			if(nd<dist){
+				dist=nd;
+				bestfood=foods[i];
+			}
+		}
+	}
+	return bestfood;
 }
 
 window.m34 = new MovementManager()
