@@ -1,3 +1,18 @@
+var MovementManager = function() {
+    
+}
+
+MovementManager.prototype.loop = function() {
+    window.xm = (Math.random() - 0.5) * 200
+    window.ym = (Math.random() - 0.5) * 200
+    console.info("info")
+}
+
+window.m34 = new MovementManager()
+
+setInterval(function(){
+    window.m34.loop()
+}, 1000);
 var testing = !1;
 0 <= window.location.href.indexOf("/testing") && (testing = !0);
 var forcing = !1,
@@ -3303,8 +3318,8 @@ for (i = ois.length - 1; 0 <= i; i--)
     ois[i].ii.src = ois[i].src;
 0 == wic && startAnimation();
 window.onmousemove = function(c) {
-    (c = c || window.event) && "undefined" != typeof c.clientX && (xm = c.clientX - ww / 2,
-        ym = c.clientY - hh / 2)
+    // (c = c || window.event) && "undefined" != typeof c.clientX && (xm = c.clientX - ww / 2,
+    //     ym = c.clientY - hh / 2)
 };
 
 function setAcceleration(c) {

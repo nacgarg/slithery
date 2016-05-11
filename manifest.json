@@ -12,7 +12,7 @@
     },
 
     "permissions": [
-    	"webRequest",
+        "webRequest",
         "webRequestBlocking",
         "http://slither.io/*"
     ],

@@ -5,5 +5,5 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 chrome.webRequest.onBeforeRequest.addListener(function(details) {
 	console.log(details.url);
-    if (details.url === ("http://slither.io/s/game8f94m.js")) return { redirectUrl: chrome.extension.getURL("js/game_modified.js") };
+    if (details.url.startsWith("http://slither.io/s/game")) return { redirectUrl: chrome.extension.getURL("js/game_modified.js") };
 }, { urls: ["http://slither.io/*"] }, ["blocking"]);
