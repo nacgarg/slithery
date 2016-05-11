@@ -47,7 +47,7 @@ function draw_overlay() {
         ctx.beginPath();
         ctx.moveTo(ctx.canvas.width/2, ctx.canvas.height/2);
         ctx.lineTo(ctx.canvas.width/2 + m34.best.xx - get_me().xx, ctx.canvas.height/2 + m34.best.yy - get_me().yy);
-        ctx.lineWidth = 10-(dist/1000) > 1 ? 10-(dist/1000) : 1
+        ctx.lineWidth = 10-(dist/30) > 1 ? 10-(dist/30) : 1
         ctx.strokeStyle = "#FF0000";
         ctx.stroke();
     }
