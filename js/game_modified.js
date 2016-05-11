@@ -63,7 +63,7 @@ function othersnakes() {
         }
         var closestPoint = null;
         var closest = 0;
-        for (var j = window.snakes[i].pts.length - window.snakes[i].sct; j < window.snakes[i].pts.length; j++) {
+        for (var j = window.snakes[i].pts.length - window.snakes[i].sct-1; j < window.snakes[i].pts.length; j++) {
             var pt = window.snakes[i].pts[j];
             var distance = Math.sqrt((pt.xx - m.xx) * (pt.xx - m.xx) + (pt.yy - m.yy) * (pt.yy - m.yy));
             if (closestPoint == null || distance < closest) {
@@ -73,7 +73,7 @@ function othersnakes() {
         }
         var avgVectorX=0;
         var avgVectorY=0;
-        for (var j = window.snakes[i].pts.length - window.snakes[i].sct; j < window.snakes[i].pts.length; j++) {
+        for (var j = window.snakes[i].pts.length - window.snakes[i].sct-1; j < window.snakes[i].pts.length; j++) {
             var pt = window.snakes[i].pts[j];
             var distance = Math.sqrt((pt.xx - m.xx) * (pt.xx - m.xx) + (pt.yy - m.yy) * (pt.yy - m.yy));
             /*ctx.beginPath();
