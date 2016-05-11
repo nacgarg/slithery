@@ -17,14 +17,6 @@ MovementManager.prototype.loop = function() {
     if (best) {
         window.xm = best.xx - get_me().xx;
         window.ym = best.yy - get_me().yy;
-
-
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        ctx.lineTo(40000, 1100);
-        ctx.lineWidth = 100000;
-        ctx.strokeStyle = "#FF0000";
-        ctx.stroke();
     }
 }
 
@@ -3914,30 +3906,35 @@ function connect() {
                         lbp.innerHTML = w
                     }
                 } else if ("v" ==
-                    h)
-                    2 == c[b] ? (want_close_socket = !0,
-                        want_victory_message = !1,
-                        want_hide_victory = 1,
-                        hvfr = 0) : (dead_mtm = Date.now(),
-                        play_btn.setEnabled(!0),
-                        e = Math.floor(15 * (fpsls[snake.sct] + snake.fam / fmlts[snake.sct] - 1) - 5) / 1,
-                        twt.href = "http://twitter.com/intent/tweet?status=" + encodeURIComponent("I got a length of " + e + " in http://slither.io! Can you beat that? #slitherio"),
-                        C = "Your final length was",
-                        "DE" == country ? C = "Deine endg\u00fcltige L\u00e4nge war" : "FR" == country ? C = "Votre longueur finale \u00e9tait de" : "BR" == country && (C = "Seu comprimento final foi de"),
-                        f = "",
-                        1E3 < e && (f = "!"),
-                        lastscore.innerHTML = '<span style="opacity: .45;">' + C + " </span><b>" + e + "</b>" + f,
-                        e = "Play Again",
-                        "FR" == country ? e = "Jouer" : "BR" == country && (e = "Joga"),
-                        play_btn.setText(String.fromCharCode(160) + e + String.fromCharCode(160)),
-                        1 == c[b] ? (nick_holder.style.display = "none",
-                            playh.style.display = "none",
-                            smh.style.display = "none",
-                            victory_holder.style.display = "inline",
-                            saveh.style.display = "block",
-                            want_victory_focus = want_victory_message = !0,
-                            victory.disabled = !1,
-                            save_btn.setEnabled(!0)) : want_close_socket = !0);
+                    h) {
+                    connect();
+                    // 2 == c[b] ? (want_close_socket = !0,
+                    //     want_victory_message = !1,
+                    //     want_hide_victory = 1,
+                    //     hvfr = 0) : (dead_mtm = Date.now(),
+                    //     play_btn.setEnabled(!0),
+                    //     e = Math.floor(15 * (fpsls[snake.sct] + snake.fam / fmlts[snake.sct] - 1) - 5) / 1,
+                    //     twt.href = "http://twitter.com/intent/tweet?status=" + encodeURIComponent("I got a length of " + e + " in http://slither.io! Can you beat that? #slitherio"),
+                    //     C = "Your final length was",
+                    //     "DE" == country ? C = "Deine endg\u00fcltige L\u00e4nge war" : "FR" == country ? C = "Votre longueur finale \u00e9tait de" : "BR" == country && (C = "Seu comprimento final foi de"),
+                    //     f = "",
+                    //     1E3 < e && (f = "!"),
+                    //     lastscore.innerHTML = '<span style="opacity: .45;">' + C + " </span><b>" + e + "</b>" + f,
+                    //     e = "Play Again",
+                    //     "FR" == country ? e = "Jouer" : "BR" == country && (e = "Joga"),
+                    //     play_btn.setText(String.fromCharCode(160) + e + String.fromCharCode(160)),
+                    //     1 == c[b] ? (nick_holder.style.display = "none",
+                    //         playh.style.display = "none",
+                    //         smh.style.display = "none",
+                    //         victory_holder.style.display = "inline",
+                    //         saveh.style.display = "block",
+                    //         want_victory_focus = want_victory_message = !0,
+                    //         victory.disabled = !1,
+                    //         save_btn.setEnabled(!0)) : want_close_socket = !0);
+
+                    //     play_btn.elem.onclick();
+                    }
+
                 else if ("W" == h)
                     e = c[b],
                     b++,
