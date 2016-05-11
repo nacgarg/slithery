@@ -50,6 +50,18 @@ function draw_overlay() {
         ctx.lineWidth = 10-(dist/30) > 1 ? 10-(dist/30) : 1
         ctx.strokeStyle = "#FF0000";
         ctx.stroke();
+        for(var i=0; i<window.snakes.length; i++){
+            for(var j=0; j<window.snakes[i].pts.length; j++){
+                var pt=window.snakes[i].pts[j];
+                ctx.beginPath();
+        ctx.moveTo(ctx.canvas.width/2, ctx.canvas.height/2);
+        ctx.lineTo(ctx.canvas.width/2 + pt.xx - get_me().xx, ctx.canvas.height/2 +pt.yy - get_me().yy);
+        ctx.lineWidth = 1
+        ctx.strokeStyle = "#00FF00";
+        ctx.stroke();
+            }
+            
+        }
     }
 }
 
