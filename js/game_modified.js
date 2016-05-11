@@ -27,7 +27,7 @@ MovementManager.prototype.loop = function() {
                 window.blacklist[best.id]=1;
             }
         }else{
-            console.log("This one took "+window.numTicks+" ticks before switching");
+            //console.log("This one took "+window.numTicks+" ticks before switching");
             window.numTicks=0;
         }
     }
