@@ -54,16 +54,24 @@ function draw_overlay() {
     }
 }
 function othersnakes(){
+    var m=get_me();
     for(var i=0; i<window.snakes.length; i++){
             if(window.snakes[i].id==m.id){
                 continue;
             }
+            var closestPoint=null;
+            var closest=0;
             for(var j=window.snakes[i].pts.length-window.snakes[i].sct; j<window.snakes[i].pts.length; j++){
                 var pt=window.snakes[i].pts[j];
+                var distance=Math.sqrt((pt.xx-m.xx)*(pt.xx-m.xx)+(pt.yy-m.yy)*(pt.yy-m.yy));
+                if(closestPoint==null || distance<closest){
+                    closest=distance;
+                    closestPoint=window.snakes[i];
+                }
                 ctx.beginPath();
         ctx.moveTo(ctx.canvas.width/2, ctx.canvas.height/2);
         ctx.lineTo(ctx.canvas.width/2 + pt.xx - get_me().xx, ctx.canvas.height/2 +pt.yy - get_me().yy);
-        ctx.lineWidth = 1
+        ctx.lineWidth = 10-closest/80 >1?10-closest/80:1;
         ctx.strokeStyle = "#00FF00";
         ctx.stroke();
             }
