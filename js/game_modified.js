@@ -43,7 +43,7 @@ MovementManager.prototype.loop = function() {
         for(var i=0; i<bestList.length; i++){
             var best=bestList[i].food;
 
-        this.vectors.push(this.createVector((best.xx - get_me().xx)*Math.pow(best.gr, 2)/bestList[i].dist*100, (best.yy - get_me().yy)*Math.pow(best.gr, 2)/bestList[i].dist*100));
+        this.vectors.push(this.createVector((best.xx - get_me().xx)*Math.pow(best.gr, 2)/bestList[i].dist*100, (best.yy - get_me().yy)*Math.pow(best.gr, 2)/bestList[i].dist*100,1));
     }
     }
 
@@ -60,14 +60,14 @@ MovementManager.prototype.loop = function() {
 
                 if (distance < 280) {
                     var strength=280/distance-1;
-                    this.vectors.push(this.createVector(-xdist*strength*10, -ydist*strength*10))
+                    this.vectors.push(this.createVector(xdist*strength*10, ydist*strength*10,-1))
                 }
             }
         }
     }
     for (var i = 0; i < this.vectors.length; i++) {
-        xsum += this.vectors[i].x
-        ysum += this.vectors[i].y
+        xsum += this.vectors[i].x*this.vectors[i].dir
+        ysum += this.vectors[i].y*this.vectors[i].dir
     }
 
     window.xm = xsum
@@ -78,8 +78,8 @@ MovementManager.prototype.loop = function() {
 
 }
 
-MovementManager.prototype.createVector = function(x, y) {
-    return { x: x, y: y }
+MovementManager.prototype.createVector = function(x, y,dir) {
+    return { x: x, y: y , dir:dir}
 }
 
 
@@ -99,7 +99,12 @@ function draw_overlay() {
         ctx.moveTo(ctx.canvas.width / 2, ctx.canvas.height / 2);
         ctx.lineTo(ctx.canvas.width / 2 + m34.vectors2[i].x, ctx.canvas.height / 2 + m34.vectors2[i].y)
         ctx.lineWidth = 5;
-        ctx.strokeStyle = "#FF0000";
+        if(m34.vectors2[i].dir==1){
+            ctx.strokeStyle = "#00FF00";
+        }else{
+            ctx.strokeStyle = "#FF0000";
+        }
+        
         ctx.stroke();
     }
 
