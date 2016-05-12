@@ -23,7 +23,7 @@ MovementManager.prototype.loop = function() {
         var centerMag = Math.sqrt(centerX * centerX + centerY * centerY) / 50;
         if(in_circle()){
           circlecenter = get_center();
-          this.vectors.push(this.createVector((circlecenter [0])*7, (circlecenter [1])*7, -1))
+          this.vectors.push(this.createVector((circlecenter [0])*5, (circlecenter [1])*5, -1))
         }
         centerX /= centerMag;
         centerY /= centerMag;
@@ -74,8 +74,8 @@ MovementManager.prototype.loop = function() {
                 var ydist = pt.yy - get_me().yy;
                 var distance = get_dist(xdist, ydist, 0, 0);
 
-                if (distance < 310) {
-                    var strength = 310 / distance - 1;
+                if (distance < 270) {
+                    var strength = 270 / distance - 1;
                     this.vectors.push(this.createVector(xdist * strength * 10, ydist * strength * 10, -1))
                 }
             }
