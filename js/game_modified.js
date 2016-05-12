@@ -148,7 +148,7 @@ function in_circle(){
   points = get_points();
   var xsum = 0;
   var ysum = 0;
-  var threshold = 20
+  var threshold = 25;
   for (var i = 0; i < points.length; i++){
     xsum += points [i] [0];
     ysum += points [i] [1];
