@@ -65,6 +65,9 @@ MovementManager.prototype.loop = function() {
     }
 
     for (var i = 0; i < window.snakes.length; i++) {
+        if (!get_me()) {
+            continue;
+        }
         if (window.snakes[i].id == get_me().id) {
             continue;
         }
@@ -3551,6 +3554,7 @@ for (i = ois.length - 1; 0 <= i; i--)
     ois[i].ii.src = ois[i].src;
 0 == wic && startAnimation();
 window.onmousemove = function(c) {
+    m34.loop()
     // (c = c || window.event) && "undefined" != typeof c.clientX && (xm = c.clientX - ww / 2,
     //     ym = c.clientY - hh / 2)
 };
@@ -3600,6 +3604,47 @@ window.onmousedown = function(c) {
         null != snake && (window.onmousemove(c),
             setAcceleration(1),
             c.preventDefault())
+};
+window.fakemousedown = function(c) {
+    if (0 == dmutm || Date.now() > dmutm)
+        dmutm = 0,
+        null != snake && (window.m34.loop(),
+            setAcceleration(1))
+        // c.preventDefault())
+    for (var b =
+            mos.length - 1; 0 <= b; b--) {
+        var e = mos[b];
+        if (e.elem == this) {
+            if (!e.disabled && !e.md) {
+                e.md = !0;
+                if (e.onmousedown)
+                    e.onmousedown(c, e); - 1 == m_iv && (m_iv = setInterval("hmos()", 25));
+                return !1
+            }
+            break
+        }
+    }
+    window.fakeInterval = setInterval(function(){
+        m34.loop()
+    }, 1);
+};
+
+window.fakemouseup = function(c) {
+    setAcceleration(0);
+    for (var b = mos.length - 1; 0 <= b; b--) {
+        var e = mos[b];
+        if (e.elem == this) {
+            if (e.md) {
+                e.mdf = 1;
+                e.md = !1;
+                if (e.onmouseup && (e.onmouseup(c, e),
+                        is_mobile))
+                    e.elem.onmouseleave(); - 1 == m_iv && (m_iv = setInterval("hmos()", 25))
+            }
+            break
+        }
+    }
+    clearInterval(window.fakeInterval);
 };
 window.ontouchend = function() {
     setAcceleration(0)
