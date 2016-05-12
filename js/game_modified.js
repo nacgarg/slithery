@@ -51,9 +51,11 @@ MovementManager.prototype.loop = function() {
                 var pt = window.snakes[i].pts[j];
                 var xdist = pt.xx - get_me().xx;
                 var ydist = pt.yy - get_me().yy;
-                if (get_dist(xdist, ydist, 0, 0) < 280) {
-                    console.log(xdist, ydist)
-                    this.vectors.push(this.createVector(-xdist*10, -ydist*10))
+                var distance=get_dist(xdist,ydist,0,0);
+
+                if (distance < 280) {
+                    var strength=280/distance-1;
+                    this.vectors.push(this.createVector(-xdist*strength*10, -ydist*strength*10))
                 }
             }
         }
