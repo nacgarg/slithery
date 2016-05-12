@@ -22,7 +22,6 @@ MovementManager.prototype.loop = function() {
         var magmulti = 1;
         var centerMag = Math.sqrt(centerX * centerX + centerY * centerY) / 50;
         if(in_circle()){
-          console.log("circling, taking evasive measures");
           circlecenter = get_center();
           this.vectors.push(this.createVector((circlecenter [0])*7, (circlecenter [1])*7, -1))
         }
@@ -41,7 +40,6 @@ MovementManager.prototype.loop = function() {
                 window.numTicks = 1;
             }
             if (window.numTicks > 200) {
-                console.log("BLACKLISTING " + best.id);
                 window.blacklist[best.id] = 1;
             }
         } else {
@@ -171,7 +169,7 @@ function in_circle(){
   }
   dev = stdDev(radii)
   if (dev < threshold){
-    console.log(dev);
+    // console.log(dev);
     return true;
   }else{
     return false;
