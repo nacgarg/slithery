@@ -26,7 +26,7 @@ MovementManager.prototype.loop = function() {
         var centerMag = Math.sqrt(centerX * centerX + centerY * centerY) / 50;
         if(in_circle()){
           circlecenter = get_center();
-          this.vectors.push(this.createVector((circlecenter [0])*5, (circlecenter [1])*5, -1))
+          this.vectors.push(this.createVector((circlecenter [0]-get_me().xx)*5, (circlecenter [1]-get_me().yy)*5, -1))
         }
         centerX /= centerMag;
         centerY /= centerMag;
