@@ -76,8 +76,8 @@ MovementManager.prototype.loop = function() {
                 var ydist = pt.yy - get_me().yy;
                 var distance = get_dist(xdist, ydist, 0, 0);
 
-                if (distance < 280) {
-                    var strength = 280 / distance - 1;
+                if (distance < 310) {
+                    var strength = 310 / distance - 1;
                     this.vectors.push(this.createVector(xdist * strength * 10, ydist * strength * 10, -1))
                 }
             }
