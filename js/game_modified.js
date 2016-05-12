@@ -12,6 +12,14 @@ function get_me() {
 
 }
 window.blacklist = [];
+function iaoeu(pr,c){
+    for(var i=0; i<pr.length; i++){
+        if(pr[i].food.id==c.id){
+            return true;
+        }
+    }
+    return false;
+}
 MovementManager.prototype.loop = function() {
     //window.xm = (Math.random() - 0.5) * 200
     //window.ym = (Math.random() - 0.5) * 200
@@ -27,7 +35,7 @@ MovementManager.prototype.loop = function() {
     var best=bestList[0]==null?null:bestList[0].food;
     this.best = best;
     if (window.prev && best) {
-        if (window.prev.id == best.id) {
+        if (iaoeu(prev,best)) {
             if (window.numTicks) {
                 window.numTicks++;
             } else {
@@ -42,7 +50,7 @@ MovementManager.prototype.loop = function() {
             window.numTicks = 0;
         }
     }
-    window.prev = best;
+    window.prev = bestList;
 
     xsum = 0
     ysum = 0
