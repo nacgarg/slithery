@@ -14,6 +14,9 @@ function get_me() {
 
 window.blacklist = [];
 MovementManager.prototype.loop = function() {
+  if (!snake) {
+    return;
+  }
     //window.xm = (Math.random() - 0.5) * 200
     //window.ym = (Math.random() - 0.5) * 200
     if (get_me() != undefined) {
@@ -160,12 +163,15 @@ function get_center(){
 function in_circle(){
   points = get_points();
   center = get_center();
+  if (points && center) {
   var xsum = center [0];
   var ysum = center [1];
   var threshold = 30;
   var radii = [];
-  for (var i = 0; i < Math.min(points.length, 50); i++){
+  for (var i = points.length; i > Math.max(0, points.length-50); i-=1){
+    if (points[i] && center[i]) {
     radii [i] = get_dist(xsum,ysum, points [i] [0], points [i] [1]);
+  }
   }
   dev = stdDev(radii)
   if (dev < threshold){
@@ -174,6 +180,7 @@ function in_circle(){
   }else{
     return false;
   }
+}
 }
 
 
