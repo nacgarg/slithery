@@ -24,7 +24,7 @@ MovementManager.prototype.loop = function() {
         if(in_circle()){
           console.log("circling, taking evasive measures");
           circlecenter = get_center();
-          this.vectors.push(this.createVector((circlecenter [0])*5, (circlecenter [1])*5, -1))
+          this.vectors.push(this.createVector((circlecenter [0])*7, (circlecenter [1])*7, -1))
         }
         centerX /= centerMag;
         centerY /= centerMag;
@@ -166,7 +166,7 @@ function in_circle(){
   var ysum = center [1];
   var threshold = 25;
   var radii = [];
-  for (var i = 0; i < points.length; i++){
+  for (var i = 0; i < 10s; i++){
     radii [i] = get_dist(xsum,ysum, points [i] [0], points [i] [1]);
   }
   dev = stdDev(radii)
