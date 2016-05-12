@@ -15,6 +15,14 @@ window.blacklist = [];
 MovementManager.prototype.loop = function() {
     //window.xm = (Math.random() - 0.5) * 200
     //window.ym = (Math.random() - 0.5) * 200
+    if(get_me()!=undefined){
+    var centerX=21000-get_me().xx;
+    var centerY=21000-get_me().yy;
+    var centerMag=Math.sqrt(centerX*centerX+centerY*centerY)/50;
+    centerX/=centerMag;
+    centerY/=centerMag;
+    this.vectors.push(this.createVector(centerX,centerY,1));
+}
     var bestList = bestfood();
     var best=bestList[0]==null?null:bestList[0].food;
     this.best = best;
