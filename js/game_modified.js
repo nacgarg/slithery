@@ -15,7 +15,8 @@ window.blacklist = [];
 MovementManager.prototype.loop = function() {
     //window.xm = (Math.random() - 0.5) * 200
     //window.ym = (Math.random() - 0.5) * 200
-    var best = bestfood();
+    var bestList = bestfood();
+    var best=bestList[0]==null?null:bestList[0].food;
     this.best = best;
     if (window.prev && best) {
         if (window.prev.id == best.id) {
@@ -39,7 +40,11 @@ MovementManager.prototype.loop = function() {
     ysum = 0
     if (best) {
         console.log(best.gr)
-        this.vectors.push(this.createVector((best.xx - get_me().xx)*Math.pow(best.gr, 2), (best.yy - get_me().yy)*Math.pow(best.gr, 2)))
+        for(var i=0; i<bestList.length; i++){
+            var best=bestList[i].food;
+
+        this.vectors.push(this.createVector((best.xx - get_me().xx)*Math.pow(best.gr, 2)/bestList[i].dist*100, (best.yy - get_me().yy)*Math.pow(best.gr, 2)/bestList[i].dist*100));
+    }
     }
 
     for (var i = 0; i < window.snakes.length; i++) {
@@ -165,21 +170,22 @@ function bestfood() {
     var bestfood = null;
     window.dist = 0;
     var foods = window.foods;
+    var possibilities=[];
     for (var i = 0; i < window.foods.length; i++) {
         if (window.foods[i] && m && !window.blacklist[window.foods[i].id]) {
             var actualDist = Math.sqrt((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy));
             var nd = actualDist / Math.pow(foods[i].gr, 2.5)
-
-            if (nd < dist || bestfood == null) {
-                dist = nd;
-
-
-                bestfood = foods[i];
-            }
+            possibilities.push({food:window.foods[i],nd:nd,dist:actualDist});
+            
 
         }
     }
-    return bestfood;
+    console.log(possibilities);
+    possibilities.sort(function(a,b) {return (a.nd > b.nd) ? 1 : ((b.nd > a.nd) ? -1 : 0);} ); 
+    if(possibilities.length<3){
+        return possibilities;
+    }
+    return [possibilities[0],possibilities[1],possibilities[2]];
 }
 
 window.m34 = new MovementManager()
