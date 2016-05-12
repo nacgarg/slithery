@@ -114,8 +114,8 @@ function draw_overlay() {
     for (var i = 0; i < m34.vectors2.length; i++) {
         ctx.beginPath();
         ctx.moveTo(ctx.canvas.width / 2, ctx.canvas.height / 2);
-        ctx.lineTo(ctx.canvas.width / 2 + m34.vectors2[i].x, ctx.canvas.height / 2 + m34.vectors2[i].y)
-        ctx.lineWidth = 5;
+        ctx.lineTo((ctx.canvas.width / 2 + m34.vectors2[i].x * window.gsc), (ctx.canvas.height / 2 + m34.vectors2[i].y * window.gsc))
+        ctx.lineWidth = 5 * window.gsc;
         if (m34.vectors2[i].dir == 1) {
             ctx.strokeStyle = "#00FF00";
         } else {
