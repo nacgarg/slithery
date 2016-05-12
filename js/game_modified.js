@@ -39,7 +39,7 @@ MovementManager.prototype.loop = function() {
     xsum = 0
     ysum = 0
     if (best) {
-        console.log(best.gr)
+       // console.log(best.gr)
         for(var i=0; i<bestList.length; i++){
             var best=bestList[i].food;
 
@@ -185,7 +185,7 @@ function bestfood() {
 
         }
     }
-    console.log(possibilities);
+    //console.log(possibilities);
     possibilities.sort(function(a,b) {return (a.nd > b.nd) ? 1 : ((b.nd > a.nd) ? -1 : 0);} ); 
     if(possibilities.length<3){
         return possibilities;
