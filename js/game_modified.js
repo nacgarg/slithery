@@ -12,9 +12,10 @@ function get_me() {
 
 }
 window.blacklist = [];
-function iaoeu(pr,c){
-    for(var i=0; i<pr.length; i++){
-        if(pr[i].food.id==c.id){
+
+function iaoeu(pr, c) {
+    for (var i = 0; i < pr.length; i++) {
+        if (pr[i].food.id == c.id) {
             return true;
         }
     }
@@ -23,19 +24,19 @@ function iaoeu(pr,c){
 MovementManager.prototype.loop = function() {
     //window.xm = (Math.random() - 0.5) * 200
     //window.ym = (Math.random() - 0.5) * 200
-    if(get_me()!=undefined){
-    var centerX=21000-get_me().xx;
-    var centerY=21000-get_me().yy;
-    var centerMag=Math.sqrt(centerX*centerX+centerY*centerY)/50;
-    centerX/=centerMag;
-    centerY/=centerMag;
-    this.vectors.push(this.createVector(centerX,centerY,1));
-}
+    if (get_me() != undefined) {
+        var centerX = 21000 - get_me().xx;
+        var centerY = 21000 - get_me().yy;
+        var centerMag = Math.sqrt(centerX * centerX + centerY * centerY) / 50;
+        centerX /= centerMag;
+        centerY /= centerMag;
+        this.vectors.push(this.createVector(centerX, centerY, 1));
+    }
     var bestList = bestfood();
-    var best=bestList[0]==null?null:bestList[0].food;
+    var best = bestList[0] == null ? null : bestList[0].food;
     this.best = best;
     if (window.prev && best) {
-        if (iaoeu(prev,best)) {
+        if (iaoeu(prev, best)) {
             if (window.numTicks) {
                 window.numTicks++;
             } else {
@@ -55,35 +56,35 @@ MovementManager.prototype.loop = function() {
     xsum = 0
     ysum = 0
     if (best) {
-       // console.log(best.gr)
-        for(var i=0; i<bestList.length; i++){
-            var best=bestList[i].food;
+        // console.log(best.gr)
+        for (var i = 0; i < bestList.length; i++) {
+            var best = bestList[i].food;
 
-        this.vectors.push(this.createVector((best.xx - get_me().xx)*Math.pow(best.gr, 2)/bestList[i].dist*100, (best.yy - get_me().yy)*Math.pow(best.gr, 2)/bestList[i].dist*100,1));
-    }
+            this.vectors.push(this.createVector((best.xx - get_me().xx) * Math.pow(best.gr, 2) / bestList[i].dist * 100, (best.yy - get_me().yy) * Math.pow(best.gr, 2) / bestList[i].dist * 100, 1));
+        }
     }
 
     for (var i = 0; i < window.snakes.length; i++) {
         if (window.snakes[i].id == get_me().id) {
             continue;
         }
-        for (var j = window.snakes[i].pts.length - window.snakes[i].sct - 1; j < window.snakes[i].pts.length; j+=3) {
+        for (var j = window.snakes[i].pts.length - window.snakes[i].sct - 1; j < window.snakes[i].pts.length; j += 3) {
             if (window.snakes[i].pts[j]) {
                 var pt = window.snakes[i].pts[j];
                 var xdist = pt.xx - get_me().xx;
                 var ydist = pt.yy - get_me().yy;
-                var distance=get_dist(xdist,ydist,0,0);
+                var distance = get_dist(xdist, ydist, 0, 0);
 
                 if (distance < 280) {
-                    var strength=280/distance-1;
-                    this.vectors.push(this.createVector(xdist*strength*10, ydist*strength*10,-1))
+                    var strength = 280 / distance - 1;
+                    this.vectors.push(this.createVector(xdist * strength * 10, ydist * strength * 10, -1))
                 }
             }
         }
     }
     for (var i = 0; i < this.vectors.length; i++) {
-        xsum += this.vectors[i].x*this.vectors[i].dir
-        ysum += this.vectors[i].y*this.vectors[i].dir
+        xsum += this.vectors[i].x * this.vectors[i].dir
+        ysum += this.vectors[i].y * this.vectors[i].dir
     }
 
     window.xm = xsum
@@ -94,8 +95,8 @@ MovementManager.prototype.loop = function() {
 
 }
 
-MovementManager.prototype.createVector = function(x, y,dir) {
-    return { x: x, y: y , dir:dir}
+MovementManager.prototype.createVector = function(x, y, dir) {
+    return { x: x, y: y, dir: dir }
 }
 
 
@@ -115,14 +116,16 @@ function draw_overlay() {
         ctx.moveTo(ctx.canvas.width / 2, ctx.canvas.height / 2);
         ctx.lineTo(ctx.canvas.width / 2 + m34.vectors2[i].x, ctx.canvas.height / 2 + m34.vectors2[i].y)
         ctx.lineWidth = 5;
-        if(m34.vectors2[i].dir==1){
+        if (m34.vectors2[i].dir == 1) {
             ctx.strokeStyle = "#00FF00";
-        }else{
+        } else {
             ctx.strokeStyle = "#FF0000";
         }
-        
+
         ctx.stroke();
     }
+
+    window.gsc = window.zoomLevel;
 
     // ctx = mc.getContext("2d")
     // ctx.fillText("Hello World", 100, 50);
@@ -191,22 +194,24 @@ function bestfood() {
     var bestfood = null;
     window.dist = 0;
     var foods = window.foods;
-    var possibilities=[];
+    var possibilities = [];
     for (var i = 0; i < window.foods.length; i++) {
         if (window.foods[i] && m && !window.blacklist[window.foods[i].id]) {
             var actualDist = Math.sqrt((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy));
             var nd = actualDist / Math.pow(foods[i].gr, 2.5)
-            possibilities.push({food:window.foods[i],nd:nd,dist:actualDist});
-            
+            possibilities.push({ food: window.foods[i], nd: nd, dist: actualDist });
+
 
         }
     }
     //console.log(possibilities);
-    possibilities.sort(function(a,b) {return (a.nd > b.nd) ? 1 : ((b.nd > a.nd) ? -1 : 0);} ); 
-    if(possibilities.length<3){
+    possibilities.sort(function(a, b) {
+        return (a.nd > b.nd) ? 1 : ((b.nd > a.nd) ? -1 : 0);
+    });
+    if (possibilities.length < 3) {
         return possibilities;
     }
-    return [possibilities[0],possibilities[1],possibilities[2]];
+    return [possibilities[0], possibilities[1], possibilities[2]];
 }
 
 window.m34 = new MovementManager()
@@ -216,8 +221,26 @@ window.m34 = new MovementManager()
 // }, 1);
 
 window.onload = function() {
-    play_btn.elem.onclick()
+    var zoom = function(e) {
+        if (!window.gsc) {
+            return;
+        }
+        e.preventDefault();
+        window.zoomLevel *= Math.pow(0.93, e.wheelDelta / -120 || e.detail / 2 || 0);
+        window.zoomLevel > 2 ? window.zoomLevel = 2 : window.zoomLevel < 0.1 ? window.zoomLevel = 0.1 : null;
+        window.gsc = window.zoomLevel;
+    }
+    play_btn.elem.onclick();
+    window.zoomLevel = 0.9
+    if (/firefox/i.test(navigator.userAgent)) {
+        document.addEventListener("DOMMouseScroll", zoom, false);
+    } else {
+        document.body.onmousewheel = zoom;
+    }
+
+
 }
+
 
 var testing = false;
 0 <= window.location.href.indexOf("/testing") && (testing = !0);
