@@ -11,8 +11,8 @@ function get_me() {
     })[0];
 
 }
-window.blacklist = [];
 
+window.blacklist = [];
 MovementManager.prototype.loop = function() {
     //window.xm = (Math.random() - 0.5) * 200
     //window.ym = (Math.random() - 0.5) * 200
@@ -20,6 +20,9 @@ MovementManager.prototype.loop = function() {
         var centerX = 21000 - get_me().xx;
         var centerY = 21000 - get_me().yy;
         var centerMag = Math.sqrt(centerX * centerX + centerY * centerY) / 50;
+        if(in_circle()){
+          console.log("in circle");
+        }
         centerX /= centerMag;
         centerY /= centerMag;
         this.vectors.push(this.createVector(centerX, centerY, 1));
@@ -94,15 +97,78 @@ MovementManager.prototype.createVector = function(x, y, dir) {
     return { x: x, y: y, dir: dir }
 }
 
-
-function get_dist_from_me(x, y) {
-    m = get_me()
-    return Math.sqrt(((m.xx - x) * (m.xx - x)) + ((m.yy - y) * (m.yy - y)))
-}
-
 function get_dist(x, y, x2, y2) {
     return Math.sqrt(((x2 - x) * (x2 - x)) + ((y2 - y) * (y2 - y)))
 }
+
+function get_dist_from_me(x, y) {
+    m = get_me()
+    return get_dist(x,y,m.xx,m.yy)
+    //return Math.sqrt(((m.xx - x) * (m.xx - x)) + ((m.yy - y) * (m.yy - y)))
+}
+function Create2DArray(rows) { // from http://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript
+  var arr = [];
+  for (var i=0;i<rows;i++) {
+     arr[i] = [];
+  }
+  return arr;
+}
+function stdDev(values){ // http://jsfiddle.net/derickbailey/5L7cLp96/
+  var avg = average(values);
+  var squareDiffs = values.map(function(value){
+    var diff = value - avg;
+    var sqrDiff = diff * diff;
+    return sqrDiff;
+  });
+  var avgSquareDiff = average(squareDiffs);
+  var stdDev = Math.sqrt(avgSquareDiff);
+  return stdDev;
+}
+
+function average(data){
+  var sum = data.reduce(function(sum, value){
+    return sum + value;
+  }, 0);
+
+  var avg = sum / data.length;
+  return avg;
+}
+
+function get_points(){
+  pts = get_me().pts;
+  points = Create2DArray(pts.length);
+  for (var i = 0; i < pts.length; i++){
+    points [i] [0] = (pts [i]).xx;
+    points [i] [1] = (pts [i]).yy;
+  }
+  return points;
+}
+
+function in_circle(){
+  points = get_points();
+  var xsum = 0;
+  var ysum = 0;
+  var threshold = 20
+  for (var i = 0; i < points.length; i++){
+    xsum += points [i] [0];
+    ysum += points [i] [1];
+  }
+  xsum /= points.length;
+  ysum /= points.length;
+  var radii = [];
+  for (var i = 0; i < points.length; i++){
+    radii [i] = get_dist(xsum,ysum, points [i] [0], points [i] [1]);
+  }
+  dev = stdDev(radii)
+  if (dev < threshold){
+    console.log(dev);
+    return true;
+  }else{
+    return false;
+  }
+}
+
+
 
 function draw_overlay() {
     ctx = mc.getContext("2d")
