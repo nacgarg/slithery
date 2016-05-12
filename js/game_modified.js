@@ -19,13 +19,16 @@ MovementManager.prototype.loop = function() {
     if (get_me() != undefined) {
         var centerX = 21000 - get_me().xx;
         var centerY = 21000 - get_me().yy;
+        var magmulti = 1;
         var centerMag = Math.sqrt(centerX * centerX + centerY * centerY) / 50;
         if(in_circle()){
-          console.log("in circle");
+          console.log("circling, taking evasive measures");
+          circlecenter = get_center();
+          this.vectors.push(this.createVector((circlecenter [0])*5, (circlecenter [1])*5, -1))
         }
         centerX /= centerMag;
         centerY /= centerMag;
-        this.vectors.push(this.createVector(centerX, centerY, 1));
+        this.vectors.push(this.createVector(centerX*magmulti, centerY*magmulti, 1));
     }
     var bestList = bestfood();
     var best = bestList[0] == null ? null : bestList[0].food;
@@ -143,18 +146,25 @@ function get_points(){
   }
   return points;
 }
-
-function in_circle(){
+function get_center(){
   points = get_points();
   var xsum = 0;
   var ysum = 0;
-  var threshold = 25;
   for (var i = 0; i < points.length; i++){
     xsum += points [i] [0];
     ysum += points [i] [1];
   }
   xsum /= points.length;
   ysum /= points.length;
+  return [xsum,ysum]
+}
+
+function in_circle(){
+  points = get_points();
+  center = get_center();
+  var xsum = center [0];
+  var ysum = center [1];
+  var threshold = 25;
   var radii = [];
   for (var i = 0; i < points.length; i++){
     radii [i] = get_dist(xsum,ysum, points [i] [0], points [i] [1]);
