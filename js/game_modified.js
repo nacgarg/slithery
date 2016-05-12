@@ -164,9 +164,9 @@ function in_circle(){
   center = get_center();
   var xsum = center [0];
   var ysum = center [1];
-  var threshold = 25;
+  var threshold = 30;
   var radii = [];
-  for (var i = 0; i < 10; i++){
+  for (var i = 0; i < Math.min(points.length, 10); i++){
     radii [i] = get_dist(xsum,ysum, points [i] [0], points [i] [1]);
   }
   dev = stdDev(radii)
