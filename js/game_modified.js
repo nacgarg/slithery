@@ -22,12 +22,13 @@ MovementManager.prototype.loop = function() {
     if (get_me() != undefined) {
         var centerX = 21000 - get_me().xx;
         var centerY = 21000 - get_me().yy;
-        var magmulti = 1;
+        var magmulti = 4;
         var centerMag = Math.sqrt(centerX * centerX + centerY * centerY) / 50;
-        if(in_circle()){
-          circlecenter = get_center();
-          this.vectors.push(this.createVector((circlecenter [0]-get_me().xx)*5, (circlecenter [1]-get_me().yy)*5, -1))
-        }
+        //if(in_circle()){
+          //circlecenter = get_center();
+          //this.vectors.push(this.createVector((circlecenter [0]-get_me().xx)*5, (circlecenter [1]-get_me().yy)*5, -1))
+          //magmulti = 20;
+        //}
         centerX /= centerMag;
         centerY /= centerMag;
         this.vectors.push(this.createVector(centerX*magmulti, centerY*magmulti, 1));
@@ -163,17 +164,20 @@ function get_center(){
 function in_circle(){
   points = get_points();
   center = get_center();
+  console.log(points);
+  console.log(center);
   if (points && center) {
   var xsum = center [0];
   var ysum = center [1];
-  var threshold = 30;
+  var threshold = 300;
   var radii = [];
   for (var i = points.length; i > Math.max(0, points.length-50); i-=1){
     if (points[i] && center[i]) {
     radii [i] = get_dist(xsum,ysum, points [i] [0], points [i] [1]);
   }
   }
-  dev = stdDev(radii)
+  console.log(radii.length);
+  dev = stdDev(radii)*points.length
   if (dev < threshold){
     // console.log(dev);
     return true;
@@ -271,10 +275,14 @@ function bestfood() {
     window.dist = 0;
     var foods = window.foods;
     var possibilities = [];
+    var points = get_points();
+    var direction = (points [points.length-1] [1] - m.yy)/(points [points.length-1] [0] - m.xx)
     for (var i = 0; i < window.foods.length; i++) {
         if (window.foods[i] && m && !window.blacklist[window.foods[i].id]) {
             var actualDist = Math.sqrt((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy));
-            var nd = actualDist / Math.pow(foods[i].gr, 2.5)
+            var inPath = Math.abs(((foods[i].yy - m.yy)/(foods[i].xx - m.xx)) - direction)/3
+            //console.log(inPath)
+            var nd = actualDist /(inPath * Math.pow(foods[i].gr, 2.5))
             possibilities.push({ food: window.foods[i], nd: nd, dist: actualDist });
 
 
