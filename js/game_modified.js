@@ -280,9 +280,9 @@ function bestfood() {
     for (var i = 0; i < window.foods.length; i++) {
         if (window.foods[i] && m && !window.blacklist[window.foods[i].id]) {
             var actualDist = Math.sqrt((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy));
-            var inPath = Math.abs(((foods[i].yy - m.yy)/(foods[i].xx - m.xx)) - direction)/3
+            var inPath = Math.abs(((foods[i].yy - m.yy)/(foods[i].xx - m.xx)) - direction)/5
             //console.log(inPath)
-            var nd = actualDist /(inPath * Math.pow(foods[i].gr, 2.5))
+            var nd = actualDist /(inPath + Math.pow(foods[i].gr, 2.5))
             possibilities.push({ food: window.foods[i], nd: nd, dist: actualDist });
 
 
