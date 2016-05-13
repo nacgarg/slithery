@@ -14,9 +14,9 @@ function get_me() {
 
 window.blacklist = [];
 MovementManager.prototype.loop = function() {
-  if (!snake) {
-    return;
-  }
+    if (!snake) {
+        return;
+    }
     //window.xm = (Math.random() - 0.5) * 200
     //window.ym = (Math.random() - 0.5) * 200
     if (get_me() != undefined) {
@@ -24,21 +24,21 @@ MovementManager.prototype.loop = function() {
         var centerY = 21000 - get_me().yy;
         var magmulti = 4;
         var centerMag = Math.sqrt(centerX * centerX + centerY * centerY) / 50;
-        if(in_circle()){
-          //circlecenter = get_center();
-          //this.vectors.push(this.createVector((circlecenter [0]-get_me().xx)*5, (circlecenter [1]-get_me().yy)*5, -1))
-          //magmulti = 20;
+        if (in_circle()) {
+            //circlecenter = get_center();
+            //this.vectors.push(this.createVector((circlecenter [0]-get_me().xx)*5, (circlecenter [1]-get_me().yy)*5, -1))
+            //magmulti = 20;
         }
         centerX /= centerMag;
         centerY /= centerMag;
-        this.vectors.push(this.createVector(centerX*magmulti, centerY*magmulti, 1));
+        this.vectors.push(this.createVector(centerX * magmulti, centerY * magmulti, 1));
     }
 
     var bestList = bestfood();
     var best = bestList[0] == null ? null : bestList[0].food;
     this.best = best;
     if (window.prev && best) {
-        if (prev.id==best.id) {
+        if (prev.id == best.id) {
             if (window.numTicks) {
                 window.numTicks++;
             } else {
@@ -78,9 +78,9 @@ MovementManager.prototype.loop = function() {
                 var xdist = pt.xx - get_me().xx;
                 var ydist = pt.yy - get_me().yy;
                 var distance = get_dist(xdist, ydist, 0, 0);
-                if(window.snakes[i].md == true){
-                  distance /= 10000
-                  console.log("boosting")
+                if (window.snakes[i].md == true) {
+                    distance /= 10000
+                    console.log("boosting")
                 }
 
                 if (distance < 270) {
@@ -113,103 +113,121 @@ function get_dist(x, y, x2, y2) {
 
 function get_dist_from_me(x, y) {
     m = get_me()
-    return get_dist(x,y,m.xx,m.yy)
-    //return Math.sqrt(((m.xx - x) * (m.xx - x)) + ((m.yy - y) * (m.yy - y)))
+    return get_dist(x, y, m.xx, m.yy)
+        //return Math.sqrt(((m.xx - x) * (m.xx - x)) + ((m.yy - y) * (m.yy - y)))
 }
+
 function Create2DArray(rows) { // from http://stackoverflow.com/questions/966225/how-can-i-create-a-two-dimensional-array-in-javascript
-  var arr = [];
-  for (var i=0;i<rows;i++) {
-     arr[i] = [];
-  }
-  return arr;
-}
-function stdDev(values){ // http://jsfiddle.net/derickbailey/5L7cLp96/
-  var avg = average(values);
-  var squareDiffs = values.map(function(value){
-    var diff = value - avg;
-    var sqrDiff = diff * diff;
-    return sqrDiff;
-  });
-  var avgSquareDiff = average(squareDiffs);
-  var stdDev = Math.sqrt(avgSquareDiff);
-  return stdDev;
+    var arr = [];
+    for (var i = 0; i < rows; i++) {
+        arr[i] = [];
+    }
+    return arr;
 }
 
-function average(data){
-  var sum = data.reduce(function(sum, value){
-    return sum + value;
-  }, 0);
-
-  var avg = sum / data.length;
-  return avg;
+function stdDev(values) { // http://jsfiddle.net/derickbailey/5L7cLp96/
+    var avg = average(values);
+    var squareDiffs = values.map(function(value) {
+        var diff = value - avg;
+        var sqrDiff = diff * diff;
+        return sqrDiff;
+    });
+    var avgSquareDiff = average(squareDiffs);
+    var stdDev = Math.sqrt(avgSquareDiff);
+    return stdDev;
 }
 
-function get_points(){
-  pts = get_me().pts;
-  points = Create2DArray(pts.length);
-  for (var i = 0; i < pts.length; i++){
-    points [i] [0] = (pts [i]).xx;
-    points [i] [1] = (pts [i]).yy;
-  }
-  return points;
-}
-function get_center(){
-  points = get_points();
-  var xsum = 0;
-  var ysum = 0;
-  for (var i = 0; i < points.length; i++){
-    xsum += points [i] [0];
-    ysum += points [i] [1];
-  }
-  xsum /= points.length;
-  ysum /= points.length;
-  return [xsum,ysum]
+function average(data) {
+    var sum = data.reduce(function(sum, value) {
+        return sum + value;
+    }, 0);
+
+    var avg = sum / data.length;
+    return avg;
 }
 
-function in_circle(){
-  points = get_points();
-  center = get_center();
-  //console.log(points);
-  //console.log(center);
-  if (points && center) {
-  var xsum = center [0];
-  var ysum = center [1];
-  var threshold = 300;
-  var radii = [];
-  for (var i = points.length; i > Math.max(0, points.length-50); i-=1){
-    if (points[i] && center[i]) {
-    radii [i] = get_dist(xsum,ysum, points [i] [0], points [i] [1]);
-  }
-  }
-  //console.log(radii.length);
-  dev = stdDev(radii)*points.length
-  if (dev < threshold){
-    // console.log(dev);
-    return true;
-  }else{
-    return false;
-  }
+function get_points() {
+    pts = get_me().pts;
+    points = Create2DArray(pts.length);
+    for (var i = 0; i < pts.length; i++) {
+        points[i][0] = (pts[i]).xx;
+        points[i][1] = (pts[i]).yy;
+    }
+    return points;
 }
+
+function get_center() {
+    points = get_points();
+    var xsum = 0;
+    var ysum = 0;
+    for (var i = 0; i < points.length; i++) {
+        xsum += points[i][0];
+        ysum += points[i][1];
+    }
+    xsum /= points.length;
+    ysum /= points.length;
+    return [xsum, ysum]
+}
+
+function in_circle() {
+    points = get_points();
+    center = get_center();
+    //console.log(points);
+    //console.log(center);
+    if (points && center) {
+        var xsum = center[0];
+        var ysum = center[1];
+        var threshold = 300;
+        var radii = [];
+        for (var i = points.length; i > Math.max(0, points.length - 50); i -= 1) {
+            if (points[i] && center[i]) {
+                radii[i] = get_dist(xsum, ysum, points[i][0], points[i][1]);
+            }
+        }
+        //console.log(radii.length);
+        dev = stdDev(radii) * points.length
+        if (dev < threshold) {
+            // console.log(dev);
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
 
 
 
 function draw_overlay() {
     ctx = mc.getContext("2d")
+    var vSum = {
+        x: 0,
+        y: 0
+    }
     for (var i = 0; i < m34.vectors2.length; i++) {
         ctx.beginPath();
         ctx.moveTo(ctx.canvas.width / 2, ctx.canvas.height / 2);
         ctx.lineTo((ctx.canvas.width / 2 + m34.vectors2[i].x * window.gsc), (ctx.canvas.height / 2 + m34.vectors2[i].y * window.gsc))
         ctx.lineWidth = 5 * window.gsc;
         if (m34.vectors2[i].dir == 1) {
+            vSum.x += m34.vectors2[i].x;
+            vSum.y += m34.vectors2[i].y;
             ctx.strokeStyle = "#00FF00";
         } else {
+            vSum.x -= m34.vectors2[i].x;
+            vSum.y -= m34.vectors2[i].y;
             ctx.strokeStyle = "#FF0000";
         }
 
         ctx.stroke();
     }
 
+
+    ctx.beginPath();
+    ctx.moveTo(ctx.canvas.width / 2, ctx.canvas.height / 2);
+    ctx.lineTo((ctx.canvas.width / 2 + vSum.x * window.gsc), (ctx.canvas.height / 2 + vSum.y * window.gsc))
+    ctx.lineWidth = 5 * window.gsc;
+    ctx.strokeStyle = "#0000FF";
+    ctx.stroke();
     window.gsc = window.zoomLevel;
 
     // ctx = mc.getContext("2d")
@@ -281,13 +299,13 @@ function bestfood() {
     var foods = window.foods;
     var possibilities = [];
     var points = get_points();
-    var direction = (points [points.length-1] [1] - m.yy)/(points [points.length-1] [0] - m.xx)
+    var direction = (points[points.length - 1][1] - m.yy) / (points[points.length - 1][0] - m.xx)
     for (var i = 0; i < window.foods.length; i++) {
         if (window.foods[i] && m && !window.blacklist[window.foods[i].id]) {
-            var actualDist = Math.sqrt((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy))*0.75;
-            var inPath = 5/Math.abs(((foods[i].yy - m.yy)/(foods[i].xx - m.xx)) - direction)
-            //console.log(inPath)
-            var nd = inPath * actualDist /(Math.pow(foods[i].gr, 2.5)*1.2)
+            var actualDist = Math.sqrt((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy)) * 0.75;
+            var inPath = 5 / Math.abs(((foods[i].yy - m.yy) / (foods[i].xx - m.xx)) - direction)
+                //console.log(inPath)
+            var nd = inPath * actualDist / (Math.pow(foods[i].gr, 2.5) * 1.2)
             possibilities.push({ food: window.foods[i], nd: nd, dist: actualDist });
 
 
@@ -3641,8 +3659,8 @@ for (i = ois.length - 1; 0 <= i; i--)
 0 == wic && startAnimation();
 window.onmousemove = function(c) {
     m34.loop()
-    // (c = c || window.event) && "undefined" != typeof c.clientX && (xm = c.clientX - ww / 2,
-    //     ym = c.clientY - hh / 2)
+        // (c = c || window.event) && "undefined" != typeof c.clientX && (xm = c.clientX - ww / 2,
+        //     ym = c.clientY - hh / 2)
 };
 
 function setAcceleration(c) {
@@ -3710,7 +3728,7 @@ window.fakemousedown = function(c) {
             break
         }
     }
-    window.fakeInterval = setInterval(function(){
+    window.fakeInterval = setInterval(function() {
         m34.loop()
     }, 1);
 };
