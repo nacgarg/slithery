@@ -3,6 +3,8 @@ var MovementManager = function() {
     a.innerHTML = "Hi"
     this.vectors = []
     this.vectors2 = []
+    this.lastX = 0;
+    this.lastY = 0;
 }
 
 function get_me() {
@@ -97,6 +99,10 @@ MovementManager.prototype.loop = function() {
 
     window.xm = xsum
     window.ym = ysum
+
+    this.lastX = xsum;
+    this.lastY = ysum;
+    
     draw_overlay()
     this.vectors2 = this.vectors
     this.vectors = [];
