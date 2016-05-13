@@ -24,15 +24,16 @@ MovementManager.prototype.loop = function() {
         var centerY = 21000 - get_me().yy;
         var magmulti = 4;
         var centerMag = Math.sqrt(centerX * centerX + centerY * centerY) / 50;
-        //if(in_circle()){
+        if(in_circle()){
           //circlecenter = get_center();
           //this.vectors.push(this.createVector((circlecenter [0]-get_me().xx)*5, (circlecenter [1]-get_me().yy)*5, -1))
           //magmulti = 20;
-        //}
+        }
         centerX /= centerMag;
         centerY /= centerMag;
         this.vectors.push(this.createVector(centerX*magmulti, centerY*magmulti, 1));
     }
+
     var bestList = bestfood();
     var best = bestList[0] == null ? null : bestList[0].food;
     this.best = best;
@@ -77,6 +78,10 @@ MovementManager.prototype.loop = function() {
                 var xdist = pt.xx - get_me().xx;
                 var ydist = pt.yy - get_me().yy;
                 var distance = get_dist(xdist, ydist, 0, 0);
+                if(window.snakes[i].md == true){
+                  distance /= 10000
+                  console.log("boosting")
+                }
 
                 if (distance < 270) {
                     var strength = 270 / distance - 1;
@@ -164,8 +169,8 @@ function get_center(){
 function in_circle(){
   points = get_points();
   center = get_center();
-  console.log(points);
-  console.log(center);
+  //console.log(points);
+  //console.log(center);
   if (points && center) {
   var xsum = center [0];
   var ysum = center [1];
@@ -176,7 +181,7 @@ function in_circle(){
     radii [i] = get_dist(xsum,ysum, points [i] [0], points [i] [1]);
   }
   }
-  console.log(radii.length);
+  //console.log(radii.length);
   dev = stdDev(radii)*points.length
   if (dev < threshold){
     // console.log(dev);
@@ -279,10 +284,10 @@ function bestfood() {
     var direction = (points [points.length-1] [1] - m.yy)/(points [points.length-1] [0] - m.xx)
     for (var i = 0; i < window.foods.length; i++) {
         if (window.foods[i] && m && !window.blacklist[window.foods[i].id]) {
-            var actualDist = Math.sqrt((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy));
-            var inPath = Math.abs(((foods[i].yy - m.yy)/(foods[i].xx - m.xx)) - direction)/5
+            var actualDist = Math.sqrt((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy))*0.75;
+            var inPath = 5/Math.abs(((foods[i].yy - m.yy)/(foods[i].xx - m.xx)) - direction)
             //console.log(inPath)
-            var nd = actualDist /(inPath + Math.pow(foods[i].gr, 2.5))
+            var nd = inPath * actualDist /(Math.pow(foods[i].gr, 2.5)*1.2)
             possibilities.push({ food: window.foods[i], nd: nd, dist: actualDist });
 
 
