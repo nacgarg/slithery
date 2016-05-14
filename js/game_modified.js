@@ -106,6 +106,12 @@ MovementManager.prototype.loop = function() {
     draw_overlay()
     this.vectors2 = this.vectors
     this.vectors = [];
+    /*function callback(){
+      return function(){
+
+      }
+    }
+    setTimeout(callback(), 80);*/
 
 }
 
@@ -308,10 +314,10 @@ function bestfood() {
     var direction = (points[points.length - 1][1] - m.yy) / (points[points.length - 1][0] - m.xx)
     for (var i = 0; i < window.foods.length; i++) {
         if (window.foods[i] && m && !window.blacklist[window.foods[i].id]) {
-            var actualDist = Math.sqrt((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy)) * 0.75;
-            var inPath = Math.sqrt(1/Math.abs(((foods[i].yy - m.yy) / (foods[i].xx - m.xx)) - direction))*5;
+            var actualDist = Math.sqrt((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy)) * 0.7;
+            var inPath = Math.sqrt(1/Math.abs(((foods[i].yy - m.yy) / (foods[i].xx - m.xx)) - direction))*1.5;
                 //console.log(inPath)
-            var nd = inPath * actualDist / (Math.pow(foods[i].gr, 2.5) * 1.2)
+            var nd = actualDist / (Math.pow(foods[i].gr, 2.7) * inPath * 1.2)
             possibilities.push({ food: window.foods[i], nd: nd, dist: actualDist });
 
 
@@ -324,7 +330,7 @@ function bestfood() {
     if (possibilities.length < 3) {
         return possibilities;
     }
-    return [possibilities[0], possibilities[1], possibilities[2]];
+    return [possibilities[0], possibilities[1],possibilities[2], possibilities[3]];
 }
 
 window.m34 = new MovementManager()
