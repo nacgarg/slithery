@@ -102,7 +102,7 @@ MovementManager.prototype.loop = function() {
 
     this.lastX = xsum;
     this.lastY = ysum;
-    
+
     draw_overlay()
     this.vectors2 = this.vectors
     this.vectors = [];
@@ -309,7 +309,7 @@ function bestfood() {
     for (var i = 0; i < window.foods.length; i++) {
         if (window.foods[i] && m && !window.blacklist[window.foods[i].id]) {
             var actualDist = Math.sqrt((window.foods[i].xx - m.xx) * (foods[i].xx - m.xx) + (foods[i].yy - m.yy) * (foods[i].yy - m.yy)) * 0.75;
-            var inPath = 5 / Math.abs(((foods[i].yy - m.yy) / (foods[i].xx - m.xx)) - direction)
+            var inPath = Math.sqrt(1/Math.abs(((foods[i].yy - m.yy) / (foods[i].xx - m.xx)) - direction))*5;
                 //console.log(inPath)
             var nd = inPath * actualDist / (Math.pow(foods[i].gr, 2.5) * 1.2)
             possibilities.push({ food: window.foods[i], nd: nd, dist: actualDist });
