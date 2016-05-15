@@ -79,11 +79,10 @@ MovementManager.prototype.loop = function() {
                 var pt = window.snakes[i].pts[j];
                 var xdist = pt.xx - get_me().xx;
                 var ydist = pt.yy - get_me().yy;
-                var distance = get_dist(xdist, ydist, 0, 0);
-                if (window.snakes[i].md == true) {
-                    distance /= 10000
-                    console.log("boosting")
-                }
+                var avoidability = (get_me().sct < 150)? 1 : 20/Math.pow(get_me().sct-130,1)
+                console.log(get_me().sct);
+                var distance = get_dist(xdist, ydist, 0, 0)*avoidability;
+
 
                 if (distance < 270) {
                     var strength = 270 / distance - 1;
